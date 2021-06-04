@@ -107,7 +107,18 @@ gh-vulns() {
             echo Details:
             echo -n "  ${info[ghsa_id]} ${colored_severities[${info[severity]}]}"
             echo -n "  published at \e[4m"
-            date -j -f '%Y-%m-%dT%H:%M:%SZ' "${info[published_at]}" +"%d/%m/%Y %H:%M:%S$reset_color"
+            case $OSTYPE in
+              darwin*)
+                date -j -f '%Y-%m-%dT%H:%M:%SZ' "${info[published_at]}" +"%d/%m/%Y %H:%M:%S$reset_color"
+                ;;
+              linux*)
+                date -d "$(sed -r 's/T([[:digit:]]{2})([[:digit:]]{2})([[:digit:]]{2})Z/ \1:\2:\3/' <<< ${info[published_at]})" +"%d/%m/%Y %H:%M:%S$reset_color"
+                ;;
+              *)
+                echo "${info[published_at]}$reset_color"
+                ;;
+            esac
+
             echo "  ${fg[blue]}\e[4m${info[notifications_permalink]}$reset_color"
             echo "  Vulnerable versions: ${info[vulnerable_version_range]}"
             echo "  \e[3mSummary"
