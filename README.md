@@ -37,5 +37,5 @@ Besides, you can create a alias for `gh`.
 
 
 ```
-gh alias set --shell vulns 'gh-vulns'
+gh alias set --shell vulns 'gh-vulns $@'
 ```
