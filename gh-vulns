@@ -113,7 +113,7 @@ gh-vulns() {
             echo "  \e[3mSummery"
             echo "    ${info[summary]}$reset_color"
             echo
-            echo "Target repositor$((( ${(M)#info:#$current_ghsa_id} >= 2 )) && echo 'ies' || echo 'y'): "
+            echo "Target repositor$((( ${(M)#${(z)vulnerabilities}:#${(qqq)current_ghsa_id}} >= 2 )) && echo 'ies' || echo 'y'): "
         fi
         echo "  ${bg[grey]}${fg_bold[default]}$owner/${info[repository]}$reset_color (${fg[blue]}\e[4m${info[url]}$reset_color)"
         echo "  ${info[vulnerable_requirements]} in ${info[vulnerable_manifest_path]}"
