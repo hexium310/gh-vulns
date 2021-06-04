@@ -110,7 +110,7 @@ gh-vulns() {
             date -j -f '%Y-%m-%dT%H:%M:%SZ' "${info[published_at]}" +"%d/%m/%Y %H:%M:%S$reset_color"
             echo "  ${fg[blue]}\e[4m${info[notifications_permalink]}$reset_color"
             echo "  Vulnerable versions: ${info[vulnerable_version_range]}"
-            echo "  \e[3mSummery"
+            echo "  \e[3mSummary"
             echo "    ${info[summary]}$reset_color"
             echo
             echo "Target repositor$((( ${(M)#${(z)vulnerabilities}:#${(qqq)current_ghsa_id}} >= 2 )) && echo 'ies' || echo 'y'): "
