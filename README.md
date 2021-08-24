@@ -12,14 +12,24 @@ This displays all vulnerabilities in your own repositories.
 
 ## Installation
 
-zinit
+### gh v2 or later
+
+This subcommand can be installed with `gh extension`. See [gh extension](https://cli.github.com/manual/gh_extension).
+
+```zsh
+gh extension install hexium310/gh-vulns
+```
+
+### gh v1
+
+With zinit:
 
 ```zsh
 zinit ice lucid as'program'
 zinit light hexium310/gh-vulns
 ```
 
-Or install this on your `$PATH`.
+Or install this repository on your `$PATH`.
 
 ## Usage
 
@@ -27,14 +37,13 @@ You can pass a GitHub username that have repositories you want to get vulnerabil
 When a username isn't passed and `$GH_VULNS_USERNAME` isn't set, the one got using GitHub API is used.
 
 ```
-gh-vulns hexium310
+gh vulns hexium310
 
 # Using $GH_VULNS_USERNAME or GitHub API
-gh-vulns
+gh vulns
 ```
 
-Besides, you can create a alias for `gh`.
-
+Besides, you can create a alias for `gh` if you use gh v1.
 
 ```
 gh alias set --shell vulns 'gh-vulns $@'
