@@ -24,7 +24,7 @@ gh-vulns() {
                             node {
                                 name
                                 url
-                                vulnerabilityAlerts(first: 100) {
+                                vulnerabilityAlerts(first: 100, states: OPEN) {
                                     nodes {
                                         vulnerableRequirements
                                         vulnerableManifestPath
