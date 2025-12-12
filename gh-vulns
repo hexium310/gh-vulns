@@ -28,6 +28,7 @@ gh-vulns() {
                                     nodes {
                                         vulnerableRequirements
                                         vulnerableManifestPath
+                                        state
                                         securityVulnerability {
                                             advisory {
                                                 ghsaId
@@ -84,6 +85,7 @@ gh-vulns() {
         package_name
         severity
         vulnerable_version_range
+        state
         vulnerable_manifest_path
         vulnerable_requirements
     )
@@ -102,7 +104,7 @@ gh-vulns() {
                 echo
             fi
             current_ghsa_id=${info[ghsa_id]}
-            echo ${bg[green]}${fg_bold[black]} ${info[package_name]} $reset_color
+            echo ${bg[green]}${fg_bold[black]} ${info[package_name]} $reset_color ${info[state]}
             echo "Upgrade to version \e[4m${fg_bold[default]}${info[first_patched_version]}${fg_no_bold[default]} or later$reset_color"
             echo Details:
             echo -n "  ${info[ghsa_id]} ${colored_severities[${info[severity]}]}"
