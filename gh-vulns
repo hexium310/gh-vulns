@@ -10,7 +10,7 @@ gh-vulns() {
 
     while
         result=$(gh api graphql \
-            --jq '.data | select(.repositoryOwner != null).repositoryOwner.repositories | { pageInfo: .pageInfo, repositories: [(.edges[] | select(.node.vulnerabilityAlerts.nodes | length > 0)).node | { repository: .name, url: .url, vulnerabilityAlerts: .vulnerabilityAlerts.nodes[] }] | group_by(.vulnerabilityAlerts.securityVulnerability.advisory.ghsaId) }' \
+            --jq '.data | select(.repositoryOwner != null).repositoryOwner.repositories | { pageInfo: .pageInfo, repositories: [(.edges[] | select(.node.vulnerabilityAlerts.nodes | length > 0)).node | { repository: .nameWithOwner, url: .url, vulnerabilityAlerts: .vulnerabilityAlerts.nodes[] }] | group_by(.vulnerabilityAlerts.securityVulnerability.advisory.ghsaId) }' \
             -F owner=$owner -F cursor=${endCursor:-null} -f query='query ($owner: String!, $cursor: String) {
                 repositoryOwner(login: $owner) {
                     repositories(first: 100, after: $cursor) {
@@ -22,7 +22,7 @@ gh-vulns() {
                         }
                         edges {
                             node {
-                                name
+                                nameWithOwner
                                 url
                                 vulnerabilityAlerts(first: 100, states: OPEN) {
                                     nodes {
@@ -128,7 +128,7 @@ gh-vulns() {
             echo
             echo "Target repositor$((( ${(M)#${(z)vulnerabilities}:#${(qqq)current_ghsa_id}} >= 2 )) && echo 'ies' || echo 'y'): "
         fi
-        echo "  ${bg[grey]}${fg_bold[default]}$owner/${info[repository]}$reset_color (${fg[blue]}\e[4m${info[url]}$reset_color)"
+        echo "  ${bg[grey]}${fg_bold[default]}${info[repository]}$reset_color (${fg[blue]}\e[4m${info[url]}$reset_color)"
         echo "  ${info[vulnerable_requirements]} in ${info[vulnerable_manifest_path]}"
         echo
     done
