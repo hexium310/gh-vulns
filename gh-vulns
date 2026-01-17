@@ -10,7 +10,22 @@ gh-vulns() {
 
     while
         result=$(gh api graphql \
-            --jq '.data | select(.repositoryOwner != null).repositoryOwner.repositories | { pageInfo: .pageInfo, repositories: [(.edges[] | select(.node.vulnerabilityAlerts.nodes | length > 0)).node | { repository: .nameWithOwner, url: .url, vulnerabilityAlerts: .vulnerabilityAlerts.nodes[] }] | group_by(.vulnerabilityAlerts.securityVulnerability.advisory.ghsaId) }' \
+            --jq '
+                .data
+                | select(.repositoryOwner != null).repositoryOwner.repositories
+                | {
+                    pageInfo: .pageInfo,
+                    repositories: [
+                        (.edges[] | select(.node.vulnerabilityAlerts.nodes | length > 0)).node
+                        | {
+                            repository: .nameWithOwner,
+                            url: .url,
+                            vulnerabilityAlerts: .vulnerabilityAlerts.nodes[]
+                        }
+                    ]
+                    | group_by(.vulnerabilityAlerts.securityVulnerability.advisory.ghsaId)
+                }
+            ' \
             -F owner=$owner -F cursor=${endCursor:-null} -f query='query ($owner: String!, $cursor: String) {
                 repositoryOwner(login: $owner) {
                     repositories(first: 100, after: $cursor) {
